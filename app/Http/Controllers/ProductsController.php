@@ -55,7 +55,6 @@ class ProductsController extends Controller
     {
       $rules = [
         "product" => "required",
-        "image" => "required",
         "description" => "required",
         "catagory" => "required",
         "stock" => "required",
