@@ -27,6 +27,6 @@ class Categories extends Migration
      */
     public function down()
     {
-        Schema::drop("catagories");
+        Schema::drop("categories");
     }
 }
