@@ -12,27 +12,31 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-/* Post Section */
+/* POST SECTION */
+/* Auth Controller */
 Route::post("signUp", "AuthController@signUp");
 Route::post("signIn", "AuthController@signIn");
+/* Products Controller */
 Route::post("updateProduct/{id}", "ProductsController@updateProduct");
 Route::post("storeProduct", "ProductsController@storeProduct");
 Route::post("destroyProduct/{id}", "ProductsController@destroyProduct");
+/* Orders Controller */
 Route::post("updateOrder/{id}", "OrdersController@updateOrder");
 Route::post("storeOrder", "OrdersController@storeOrder");
 Route::post("destroyOrder/{id}", "OrdersController@destroyOrder");
+/* Category Controller */
 Route::post("storeCategory", "CategoryController@storeCategory");
-Route::post("destroyCategory/{id}", "OrdersController@destroyCategory");
+Route::post("destroyCategory/{id}", "CategoryController@destroyCategory");
 
-/* Get Section */
-Route::get("showProduct/{id}", "ProductsController@showProduct");
-Route::get("showCategory/{id}", "CategoryController@showCategory");
-Route::get("showOrder/{id}", "OrdersController@showProduct");
-Route::get("getProduct", "ProductsController@index");
-Route::get("getOrder", "ProductsController@index");
-Route::get("getCategory", "ProductsController@index");
+/* GET SECTION */
+/* Auth Controller */
 Route::get("getUser", "AuthController@getUser");
+/* Products Controller */
+Route::get("showProduct/{id}", "ProductsController@showProduct");
+Route::get("getProduct", "ProductsController@index");
+/* Orders Controller */
+Route::get("showOrder/{id}", "OrdersController@showOrder");
+Route::get("getOrder", "OrdersController@index");
+/* Category Controller */
+Route::get("showCategory/{id}", "CategoryController@showCategory");
+Route::get("getCategory", "CategoryController@index");

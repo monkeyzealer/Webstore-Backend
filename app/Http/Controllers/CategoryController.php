@@ -25,7 +25,7 @@ class CategoryController extends Controller
     {
       //this makes it so the Categories show up in a order from newest to oldest
       $categories = Category::orderBy("id", "desc")->get();
-      return Respose::json($categories);
+      return Response::json($categories);
     }
     //stores the Categories in the database
     public function storeCategory(Request $request)
@@ -35,7 +35,7 @@ class CategoryController extends Controller
         "category" => "required",
       ];
 
-      $Validator = Validator::make(Purifer::clean($request->all()),$rules);
+      $Validator = Validator::make(Purifier::clean($request->all()),$rules);
       //if validation fails it wil lcome up with a error that you need to fill out all fields
       if($Validator->fails())
       {
@@ -49,8 +49,8 @@ class CategoryController extends Controller
       }
 
       //this makes it so it stores all the stuff in the fields
-      $catagory = new Catagory;
-      $category->catagory = $request->input("category");
+      $category = new Category;
+      $category->category = $request->input("category");
       $category->save();
 
       return Response::json(["success" => "Category Was Successfully Added To Database."]);
@@ -62,7 +62,7 @@ class CategoryController extends Controller
         "category" => "required",
       ];
 
-      $Validator = Validator::make(Purifer::clean($request->all()),$rules);//passes data
+      $Validator = Validator::make(Purifier::clean($request->all()),$rules);//passes data
       if($Validator->fails())
       {
         return Response::json(["error" => "You need to fill out all fields"]);
@@ -83,13 +83,13 @@ class CategoryController extends Controller
     {
       //finds Category id
       $category = Category::find($id);
-      //returns everything about the product
+      //returns everything about the category
       return Response::json($category);
     }
     public function destroyCategory($id)
     {
       $category = Category::find($id);
-      $product->delete();
+      $category->delete();
       return Response::json(["success" => "Delete Category"]);
     }
 }

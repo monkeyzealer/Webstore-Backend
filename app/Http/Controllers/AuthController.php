@@ -43,6 +43,7 @@ class AuthController extends Controller
      $email = $request->input("email");
      $password = $request->input("password");
      $username = $request->input("username");
+
      //checks to see if email and username are in the database
      $check = User::where("email","=", $email)->orWhere("name","=",$username)->first();
      //if check results comes up with that there is no user in the database with the username and password then it will put your username, email, and password in the database

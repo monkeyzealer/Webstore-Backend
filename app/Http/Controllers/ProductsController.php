@@ -15,7 +15,7 @@ class ProductsController extends Controller
 {
     public function __construct()
     {
-      $this->middleware("jwt.auth", ["only" => ["storeProduct", "destoryProduct"]]);
+      $this->middleware("jwt.auth", ["only" => ["storeProduct", "destroyProduct", "updateProduct"]]);
     }
     public function index()
     {
@@ -31,12 +31,12 @@ class ProductsController extends Controller
         "product" => "required",
         "image" => "required",
         "description" => "required",
-        "catagory" => "required",
+        "categoryID" => "required",
         "stock" => "required",
         "price" => "required",
       ];
 
-        $Validator = Validator::make(Purifer::clean($request->all()),$rules);//passes data
+        $Validator = Validator::make(Purifier::clean($request->all()),$rules);//passes data
       //if validation fails it will come up with a error that you need to fill out all fields
       if($Validator->fails())
       {
@@ -53,16 +53,16 @@ class ProductsController extends Controller
       $product = new Product;
       $product->product = $request->input("product");
       $product->description = $request->input("description");
-      $product->category = $request->input("category");
+      $product->categoryID = $request->input("categoryID");
       $product->stock = $request->input("stock");
       $product->price = $request->input("price");
-      $image = $request->file(:"image");
+      $image = $request->file("image");
       $imageName = $image->getClientOriginalName();
       $image->move("storage/",$imageName);
       $product->image = $request->root()."/storage/".$imageName;
       $product->save();
 
-      return Respone::json(["success" => "Product Was Successfully Uploaded."]);
+      return Response::json(["success" => "Product Was Successfully Added To Database."]);
     }
     //this is the function that will allow admin users to update the prduct
     public function updateProduct($id, Request $request)
@@ -70,12 +70,12 @@ class ProductsController extends Controller
       $rules = [
         "product" => "required",
         "description" => "required",
-        "catagory" => "required",
+        "categoryID" => "required",
         "stock" => "required",
         "price" => "required",
       ];
 
-      $Validator = Validator::make(Purifer::clean($request->all()),$rules);//passes data
+      $Validator = Validator::make(Purifier::clean($request->all()),$rules);//passes data
       //if validation fails it will come up with a error that you need to fill out all fields
       if($Validator->fails())
       {
@@ -89,12 +89,12 @@ class ProductsController extends Controller
       }
 
       $product = Product::find($id);
-      $product->product = $request->input("product")
-      $product->description = $request->input("description")
-      $product->category = $request->input("category");
+      $product->product = $request->input("product");
+      $product->description = $request->input("description");
+      $product->categoryID = $request->input("categoryID");
       $product->stock = $request->input("stock");
       $product->price = $request->input("price");
-      $image = $request->file("image")
+      $image = $request->file("image");
       if(!empty($image))
       {
         $imageName = $image->getClientOriginalName();
@@ -113,7 +113,7 @@ class ProductsController extends Controller
       return Response::json($product);
     }
     //deletes the product
-    public function destoryProduct($id)
+    public function destroyProduct($id)
     {
       $product = Product::find($id);
       $product->delete();
