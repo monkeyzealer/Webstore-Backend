@@ -29,9 +29,9 @@ Route::post("storeCategory", "CategoryController@storeCategory");
 Route::post("destroyCategory/{id}", "OrdersController@destroyCategory");
 
 /* Get Section */
-Route::get("showProduct/{id}", "ProductsController@showProduct")
-Route::get("showCategory/{id}", "CategoryController@showCategory")
-Route::get("showOrder/{id}", "OrdersController@showProduct")
+Route::get("showProduct/{id}", "ProductsController@showProduct");
+Route::get("showCategory/{id}", "CategoryController@showCategory");
+Route::get("showOrder/{id}", "OrdersController@showProduct");
 Route::get("getProduct", "ProductsController@index");
 Route::get("getOrder", "ProductsController@index");
 Route::get("getCategory", "ProductsController@index");
