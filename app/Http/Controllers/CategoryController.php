@@ -32,7 +32,7 @@ class CategoryController extends Controller
     {
       //makes these Required field
       $rules = [
-        "category" => "required"
+        "category" => "required",
       ];
 
       $Validator = Validator::make(Purifer::clean($request->all()),$rules);
