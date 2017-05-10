@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Response;
 use App\Order;
+use App\Product;
 use Illuminate\Support\Facades\Validator;
 use Purifier;
 use JWTAuth;
 use Auth;
 use File;
-use app\product
 
 class OrdersController extends Controller
 {
     public function __construct()
     {
-      $this->middleware("jwt.auth", ["only" => ["storeOrder", "destoryOrder", "updateOrder"]]);
+      $this->middleware("jwt.auth", ["only" => ["storeOrder", "destroyOrder", "updateOrder"]]);
     }
     public function index()
     {
@@ -33,6 +33,7 @@ class OrdersController extends Controller
         "userID" => "required",
         "amount" => "required",
         "comment" => "required",
+        "totalPrice" => "required",
       ];
       $Validator = Validator::make(Purifier::clean($request->all()),$rules);//passes data
 
@@ -46,7 +47,7 @@ class OrdersController extends Controller
       {
         return Response::json(["error" => "Invalid Product"]);
       }
-      $order->$totalPrice = $request->input("amount")*$product->price;
+
       if($product->availability == 0)
       {
       return Response::json(["success" => "Success"]);
@@ -57,7 +58,7 @@ class OrdersController extends Controller
       $order->userID = Auth::user()->id;
       $order->productID = $request->input("productID");
       $order->amount = $request->input("amount");
-      $order->totalPrice = $request->input("totalPrice");
+      $order->totalPrice = $request->input("amount")*$product->price;
       $order->comment = $request->input("comment");
       $order->save();
 
