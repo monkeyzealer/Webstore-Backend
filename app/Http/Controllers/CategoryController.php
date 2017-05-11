@@ -77,7 +77,7 @@ class CategoryController extends Controller
       $category = Category::find($id);
       $category->save();
 
-      return Response::json(["success" => "Product Has Been Updated"]);
+      return Response::json(["success" => "Category Has Been Updated"]);
     }
     public function showCategory($id)
     {
@@ -90,6 +90,6 @@ class CategoryController extends Controller
     {
       $category = Category::find($id);
       $category->delete();
-      return Response::json(["success" => "Delete Category"]);
+      return Response::json(["success" => "Deleted Category"]);
     }
 }

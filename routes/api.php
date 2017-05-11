@@ -16,6 +16,10 @@ use Illuminate\Http\Request;
 /* Auth Controller */
 Route::post("signUp", "AuthController@signUp");
 Route::post("signIn", "AuthController@signIn");
+/* Roles Controller */
+Route::post("updateRole/{id}", "RolesController@updateRole");
+Route::post("storeRole", "RolesController@storeRole");
+Route::post("destroyRole/{id}", "RolesController@destroyRole");
 /* Products Controller */
 Route::post("updateProduct/{id}", "ProductsController@updateProduct");
 Route::post("storeProduct", "ProductsController@storeProduct");
@@ -28,9 +32,13 @@ Route::post("destroyOrder/{id}", "OrdersController@destroyOrder");
 Route::post("storeCategory", "CategoryController@storeCategory");
 Route::post("destroyCategory/{id}", "CategoryController@destroyCategory");
 
+
 /* GET SECTION */
 /* Auth Controller */
 Route::get("getUser", "AuthController@getUser");
+/* Roles Controller */
+Route::get("showRole/{id}", "RolesController@showRole");
+Route::get("getRole", "RolesController@index");
 /* Products Controller */
 Route::get("showProduct/{id}", "ProductsController@showProduct");
 Route::get("getProduct", "ProductsController@index");
