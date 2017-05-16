@@ -41,10 +41,10 @@ Route::get("showRole/{id}", "RolesController@showRole");
 Route::get("getRole", "RolesController@index");
 /* Products Controller */
 Route::get("showProduct/{id}", "ProductsController@showProduct");
-Route::get("getProduct", "ProductsController@index");
+Route::get("getProducts", "ProductsController@index");
 /* Orders Controller */
 Route::get("showOrder/{id}", "OrdersController@showOrder");
-Route::get("getOrder", "OrdersController@index");
+Route::get("getOrders", "OrdersController@index");
 /* Category Controller */
 Route::get("showCategory/{id}", "CategoryController@showCategory");
-Route::get("getCategory", "CategoryController@index");
+Route::get("getCategories", "CategoryController@index");

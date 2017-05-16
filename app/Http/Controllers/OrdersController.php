@@ -82,11 +82,22 @@ class OrdersController extends Controller
         return Response::json(["error" => "You need to fill out all fields"]);
       }
 
+      $product = Product::find($request->input("productID"));
+      if(empty($product))
+      {
+        return Response::json(["error" => "Invalid Product"]);
+      }
+
+      if($product->availability == 0)
+      {
+      return Response::json(["success" => "Success"]);
+      }
+
       $order = Order::find($id);
       $order->userID = Auth::user()->id;
       $order->productID = $request->input("productID");
       $order->amount = $request->input("amount");
-      $order->totalPrice = $request->input("totalPrice");
+      $order->totalPrice = $request->input("amount")*$product->price;
       $order->comment = $request->input("comment");
       $order->save();
 
@@ -103,6 +114,11 @@ class OrdersController extends Controller
     public function destroyOrder($id)
     {
       $order = Order::find($id);
+      $user=Auth::user();
+      if($user->roleID != 1 || $user->id != $order->userID)
+    {
+      return Response::json(["error" => "You are not authorized to do this!"]);
+    }
       $order->delete();
       return Response::json(["success" => "Order Has Been Deleted"]);
     }

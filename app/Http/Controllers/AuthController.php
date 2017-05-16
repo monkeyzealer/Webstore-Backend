@@ -51,7 +51,7 @@ class AuthController extends Controller
        $user = new User;
        $user->name = $username;
        $user->email = $email;
-       $user->roleID = 2;
+       $user->roleID = 3;
        //hash:make() makes the password encrypted in the database
        $user->password = Hash::make($password);
        $user->save();
