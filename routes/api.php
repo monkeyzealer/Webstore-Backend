@@ -24,6 +24,9 @@ Route::post("destroyRole/{id}", "RolesController@destroyRole");
 Route::post("updateProduct/{id}", "ProductsController@updateProduct");
 Route::post("storeProduct", "ProductsController@storeProduct");
 Route::post("destroyProduct/{id}", "ProductsController@destroyProduct");
+/* Comments Controller */
+Route::post("storeComment", "CommentsController@storeComment");
+Route::post("deleteComment/{id}", "CommentsController@deleteComment");
 /* Orders Controller */
 Route::post("updateOrder/{id}", "OrdersController@updateOrder");
 Route::post("storeOrder", "OrdersController@storeOrder");
@@ -42,6 +45,8 @@ Route::get("getRole", "RolesController@index");
 /* Products Controller */
 Route::get("showProduct/{id}", "ProductsController@showProduct");
 Route::get("getProducts", "ProductsController@index");
+/* Products Controller */
+Route::get("getComments/{id}", "CommentsController@index");
 /* Orders Controller */
 Route::get("showOrder/{id}", "OrdersController@showOrder");
 Route::get("getOrders", "OrdersController@index");
