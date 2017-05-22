@@ -34,7 +34,7 @@ class CommentsController extends Controller
 
         return Response::json($comments);
     }
-    public function store(Request $request)
+    public function storeComment(Request $request)
     {
       $rules = [
         "commentBody" => "required",

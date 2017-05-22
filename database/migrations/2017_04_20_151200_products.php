@@ -19,7 +19,7 @@ class Products extends Migration
           $table->longText("image");
           $table->longText("description");
           $table->integer("categoryID");
-          $table->integer('stock')->default(0);
+          $table->integer('stock')
           $table->integer('price');
           $table->timestamps();
       });

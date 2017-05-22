@@ -24,7 +24,7 @@ class CategoryController extends Controller
     public function index()
     {
       //this makes it so the Categories show up in a order from newest to oldest
-      $categories = Category::orderBy("id", "desc")->get();
+      $categories = Category::orderBy("id", "asc")->get();
       return Response::json($categories);
     }
     //stores the Categories in the database
