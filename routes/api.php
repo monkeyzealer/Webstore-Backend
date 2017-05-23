@@ -50,6 +50,7 @@ Route::get("getComments/{id}", "CommentsController@index");
 /* Orders Controller */
 Route::get("showOrder/{id}", "OrdersController@showOrder");
 Route::get("getOrders", "OrdersController@index");
+Route::get("showUserOrders", "OrdersController@showUserOrders");
 /* Category Controller */
 Route::get("showCategory/{id}", "CategoryController@showCategory");
 Route::get("getCategories", "CategoryController@index");

@@ -16,12 +16,22 @@ class OrdersController extends Controller
 {
     public function __construct()
     {
-      $this->middleware("jwt.auth", ["only" => ["storeOrder", "destroyOrder", "updateOrder"]]);
+      $this->middleware("jwt.auth", ["only" => ["index", "showUserOrders", "storeOrder", "destroyOrder", "updateOrder"]]);
     }
     public function index()
     {
+      $user = Auth::user();
       //this makes it so the orders show up in a order from newest to oldest
-      $orders = Order::orderby("id","desc")->get();
+      $orders = Order::join("users", "orders.userID", "=", "users.id")
+                      ->join("products", "orders.productID", "=", "products.id")
+                      ->orderby("orders.id","desc")
+                      ->select("orders.id", "orders.amount", "orders.totalPrice", "orders.userID", "orders.comment", "users.name", "products.product")
+                      ->get();
+        if($user->roleID != 1)
+        {
+          return Response::json(["error" => "not allowed"])
+        }
+
       return Response::json($orders);
     }
     //stores the Orders in the database
@@ -30,10 +40,7 @@ class OrdersController extends Controller
       //makes these required fields
       $rules = [
         "productID" => "required",
-        "userID" => "required",
         "amount" => "required",
-        "comment" => "required",
-        "totalPrice" => "required",
       ];
       $Validator = Validator::make(Purifier::clean($request->all()),$rules);//passes data
 
@@ -48,9 +55,9 @@ class OrdersController extends Controller
         return Response::json(["error" => "Invalid Product"]);
       }
 
-      if($product->availability == 0)
+      if($product->stock == 0)
       {
-      return Response::json(["success" => "Success"]);
+      return Response::json(["error" => "unavailale"]);
       }
 
       //this makes it stores all the stuff in the fields
@@ -62,15 +69,13 @@ class OrdersController extends Controller
       $order->comment = $request->input("comment");
       $order->save();
 
-      return Response::json(["success" => "Order Was Successfully Created"]);
+      return Response::json(["success" => "Order Was Successfully Created", "total" => $order->totalPrice ]);
     }
 
     //this allows user to update there order
     public function updateOrder($id, Request $request)
     {
       $rules = [
-        "productID" => "required",
-        "userID" => "required",
         "amount" => "required",
         "comment" => "required",
       ];
@@ -121,5 +126,17 @@ class OrdersController extends Controller
     }
       $order->delete();
       return Response::json(["success" => "Order Has Been Deleted"]);
+    }
+    public function showUserOrders()
+    {
+      $user = Auth::user();
+      $orders = Order::where("orders.userID", "=", $user->id)
+                      ->join("users", "orders.userID", "=", "users.id")
+                      ->join("products", "orders.productID", "=", "products.id")
+                      ->orderby("orders.id","desc")
+                      ->select("orders.id", "orders.amount", "orders.totalPrice", "orders.userID", "orders.comment", "users.name", "products.product")
+                      ->get();
+
+      return Response::json($orders);
     }
 }
