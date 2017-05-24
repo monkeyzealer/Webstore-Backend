@@ -25,11 +25,11 @@ class OrdersController extends Controller
       $orders = Order::join("users", "orders.userID", "=", "users.id")
                       ->join("products", "orders.productID", "=", "products.id")
                       ->orderby("orders.id","desc")
-                      ->select("orders.id", "orders.amount", "orders.totalPrice", "orders.userID", "orders.comment", "users.name", "products.product")
+                      ->select("orders.id", "orders.amount", "orders.totalPrice", "orders.userID", "orders.productID", "orders.comment", "users.name", "products.product", "products.stock")
                       ->get();
         if($user->roleID != 1)
         {
-          return Response::json(["error" => "not allowed"])
+          return Response::json(["error" => "not allowed"]);
         }
 
       return Response::json($orders);
@@ -93,20 +93,19 @@ class OrdersController extends Controller
         return Response::json(["error" => "Invalid Product"]);
       }
 
-      if($product->availability == 0)
+      if($product->stock == 0)
       {
-      return Response::json(["success" => "Success"]);
+      return Response::json(["error" => "empty"]);
       }
 
       $order = Order::find($id);
       $order->userID = Auth::user()->id;
-      $order->productID = $request->input("productID");
       $order->amount = $request->input("amount");
       $order->totalPrice = $request->input("amount")*$product->price;
       $order->comment = $request->input("comment");
       $order->save();
 
-      return Response::json(["success" => "Order Has Been Updated"]);
+      return Response::json(["success" => "Order Has Been Updated", "total" => $order->totalPrice]);
     }
     public function showOrder($id)
     {
@@ -134,9 +133,8 @@ class OrdersController extends Controller
                       ->join("users", "orders.userID", "=", "users.id")
                       ->join("products", "orders.productID", "=", "products.id")
                       ->orderby("orders.id","desc")
-                      ->select("orders.id", "orders.amount", "orders.totalPrice", "orders.userID", "orders.comment", "users.name", "products.product")
+                      ->select("orders.id", "orders.amount", "orders.totalPrice", "orders.userID", "orders.productID", "orders.comment", "users.name", "products.product", "products.stock")
                       ->get();
-
       return Response::json($orders);
     }
 }
