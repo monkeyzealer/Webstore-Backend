@@ -54,3 +54,6 @@ Route::get("showUserOrders", "OrdersController@showUserOrders");
 /* Category Controller */
 Route::get("showCategory/{id}", "CategoryController@showCategory");
 Route::get("getCategories", "CategoryController@index");
+
+//enter more routes here, leaving below as last route!
+Route::any('{path?}', 'AuthController@index')->where("path", ".+");

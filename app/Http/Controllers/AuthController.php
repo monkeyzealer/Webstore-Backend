@@ -8,13 +8,19 @@ use Response;
 use JWTAuth;
 use Illuminate\Http\Request;
 use Auth;
+use File;
 
 class AuthController extends Controller
 {
    public function __construct()
    {
      //this makes it so it excepts sign in and sign up
-     $this->middleware("jwt.auth",["except" => ["signIn","signUp"]]);
+     $this->middleware("jwt.auth",["except" => ["index", "signIn","signUp"]]);
+   }
+
+   public function index()
+   {
+     return File::get('index.html');
    }
   //sign in function lets you sign in and be able to see content that only users can see
    public function signIn(Request $request)

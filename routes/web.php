@@ -10,7 +10,5 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+//enter more routes here, leaving below as last route!
+Route::any('{path?}', 'AuthController@index')->where("path", ".+");
